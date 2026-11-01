@@ -1,4 +1,4 @@
-const ROOT = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+const ROOT = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:4000/api/v1');
 export async function request(path, options = {}, refreshed = false) {
   const token = localStorage.getItem('afterlight-token');
   const response = await fetch(`${ROOT}${path}`, { ...options, credentials: 'include', headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });

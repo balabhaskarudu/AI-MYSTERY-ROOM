@@ -11,6 +11,12 @@ An investigation experience for fictional, AI-generated cases. The React client 
 
 Gemini is required for case generation. Cases are generated asynchronously and validated before publication. Image generation is optional; evidence viewers use designed text treatments when no media provider is configured.
 
+## Deploy on Vercel
+
+The root `vercel.json` defines the frontend and backend as Vercel Services and routes `/api/*` to Express, with all other paths served by the Vite app. In Vercel, import the repository and set the project's framework preset to **Services**. Vercel Services must be enabled for the account/project.
+
+Add these backend environment variables in Vercel: `MONGODB_URI` (a reachable MongoDB Atlas connection string), `JWT_SECRET` (a unique random secret of at least 24 characters), and `GEMINI_API_KEY`. You may also set `GEMINI_MODEL`, `GEMINI_IMAGE_MODEL`, and `GEMINI_RETRY_LIMIT`. Do not commit `.env` files or put backend secrets in frontend variables. In production the frontend uses the same-origin `/api/v1` API path; local development continues to use `http://localhost:4000/api/v1`.
+
 ## API
 
 API root: `/api/v1`. Register or sign in for a 15-minute bearer access token and an HttpOnly rotating refresh cookie. Main routes include `POST /auth/refresh`, `POST /auth/logout`, `POST /mysteries/generate`, `GET /mysteries`, `GET /mysteries/generation/:jobId`, `POST /investigations/:mysteryId/start`, progress and notes PATCH routes, evidence GET routes, and `POST /investigations/:mysteryId/accuse`.
